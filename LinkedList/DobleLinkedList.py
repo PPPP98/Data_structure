@@ -91,10 +91,40 @@ class MyDeque:
             self.length -= 1
             return node.data
 
+    def insert(self, idx, data):
+        if idx <= 0:
+            self.appendleft(data)
+        elif idx >= self.length:
+            self.append(data)
+        else:
+            node = self.head
+            for _ in range(idx - 1):
+                node = node.next
+            new_node = Node(data)
+            new_node.prev = node
+            new_node.next = node.next
+            node.next.prev = new_node
+            node.next = new_node
+            self.length += 1
 
-if __name__ == "__main__":
-    que = MyDeque()
-    for i in range(5):
-        que.append(i)
-    
-    print(f"{4 in que}")
+    def remove(self, target):
+        node = self.head
+        while node is not None and node.data != target:
+            node = node.next
+        if node is None:
+            return False
+        
+        if node == self.head:
+            if self.length == 1:
+                self.head = self.tail = None
+            else:
+                self.head = self.head.next
+                self.head.prev = None
+        elif node == self.tail:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        else:
+            node.next.prev = node.prev
+            node.prev.next = node.next
+        self.length -= 1
+        return True

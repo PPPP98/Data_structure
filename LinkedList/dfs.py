@@ -1,4 +1,4 @@
-from DobleLinkedList import Deque
+from LinkedList.DobleLinkedList import Deque
 
 def bfs(s):
     visited = [False] * (V + 1)
